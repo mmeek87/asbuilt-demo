@@ -1,10 +1,31 @@
 {
   "intent": "Before paying, shoppers see their order total and that delivery is free, then pay with one clear button.",
   "execution": "interactive",
+  "actionsApproved": true,
   "criteria": [
-    { "id": "cart", "kind": "heading", "value": "Your cart", "expected": "The cart page opens." },
-    { "id": "total", "kind": "text", "value": "Order total", "expected": "The order total is shown before payment." },
-    { "id": "delivery", "kind": "text", "value": "Free delivery on this order", "expected": "Shoppers are told delivery is free." },
-    { "id": "pay", "kind": "button", "value": "Pay securely", "expected": "One clear button to pay." }
+    {
+      "id": "cart",
+      "kind": "heading",
+      "value": "Your cart",
+      "expected": "The cart page opens."
+    },
+    {
+      "id": "total",
+      "kind": "text",
+      "value": "Order total",
+      "expected": "The order total is shown before payment."
+    },
+    {
+      "id": "delivery",
+      "kind": "text",
+      "value": "Free delivery on this order",
+      "expected": "Shoppers are told delivery is free."
+    },
+    {
+      "id": "pay",
+      "kind": "button",
+      "value": "Pay securely",
+      "expected": "One clear button to pay."
+    }
   ]
 }
