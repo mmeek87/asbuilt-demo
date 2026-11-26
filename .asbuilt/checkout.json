@@ -25,7 +25,8 @@
       "id": "pay",
       "kind": "button",
       "value": "Pay securely",
-      "expected": "One clear button to pay."
+      "expected": "One clear button to pay, showing the price",
+      "match": "contains"
     }
   ]
 }
