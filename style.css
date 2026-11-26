@@ -1,0 +1,19 @@
+:root { --ink:#22221f; --muted:#5f5f58; --line:#e6e4dc; --paper:#fbfaf6; --accent:#2f5d46; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--paper); color:var(--ink); font:17px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+header { display:flex; align-items:center; justify-content:space-between; padding:18px 24px; border-bottom:1px solid var(--line); }
+.brand { color:var(--ink); text-decoration:none; font-weight:650; letter-spacing:-0.01em; }
+.tag { font-size:13px; color:var(--muted); }
+main { max-width:520px; margin:48px auto; padding:0 24px; }
+h1 { font-size:32px; letter-spacing:-0.02em; margin:0 0 24px; }
+.items { list-style:none; margin:0; padding:0; border-top:1px solid var(--line); }
+.items li { display:flex; align-items:center; gap:14px; padding:16px 0; border-bottom:1px solid var(--line); }
+.items div { flex:1; display:flex; flex-direction:column; }
+.items div span { color:var(--muted); font-size:15px; }
+.thumb { width:52px; height:52px; border-radius:10px; }
+.thumb.a { background:#e8dcc6; } .thumb.b { background:#f1d58a; }
+.summary { margin:20px 0 0; display:grid; grid-template-columns:1fr auto; row-gap:6px; }
+.summary dt { color:var(--muted); } .summary dd { margin:0; text-align:right; }
+.summary .total { font-weight:650; color:var(--ink); }
+.note { margin:16px 0 0; padding:10px 14px; background:#eef3ee; border-radius:8px; color:var(--accent); font-size:15px; }
+.button { display:block; margin-top:24px; padding:14px; text-align:center; background:var(--accent); color:#fff; border:0; border-radius:10px; font:inherit; font-weight:600; text-decoration:none; width:100%; cursor:pointer; }
