@@ -1,0 +1,68 @@
+# Publishes each pull request to its own preview address on GitHub Pages,
+# then runs AsBuilt against it. Free on public repositories.
+#
+# Most apps get previews from their host (Vercel, Netlify); for those, use
+# the shorter workflow in the AsBuilt README instead. This demo builds its
+# own preview so it has no outside accounts.
+name: Preview and AsBuilt
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write       # publish the preview to the gh-pages branch
+  pull-requests: write  # post the AsBuilt comment
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    outputs:
+      url: ${{ steps.publish.outputs.url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish preview
+        id: publish
+        env:
+          PR: ${{ github.event.pull_request.number }}
+          SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          folder=${PR:+pr-$PR}
+          url="https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}/${folder:+$folder/}"
+          git fetch origin gh-pages --depth 1 && git worktree add pages origin/gh-pages || {
+            git worktree add --detach pages && git -C pages checkout --orphan gh-pages && git -C pages rm -rfq . ; }
+          target="pages/${folder:-.}"
+          mkdir -p "$target"
+          # Root deploys keep the pr-* folders.
+          find "$target" -mindepth 1 -maxdepth 1 ! -name 'pr-*' ! -name '.git' -exec rm -rf {} +
+          cp -R site/. "$target/"
+          echo "$SHA" > "$target/version.txt"
+          touch pages/.nojekyll
+          cd pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A && git commit -qm "Preview ${folder:-main} at ${SHA::7}" && git push -q origin HEAD:gh-pages
+          echo "Waiting for $url"
+          for i in $(seq 1 60); do
+            if [ "$(curl -fsS "${url}version.txt?$i" 2>/dev/null)" = "$SHA" ]; then
+              echo "url=$url" >> "$GITHUB_OUTPUT"; echo "Live: $url"; exit 0; fi
+            sleep 5
+          done
+          echo "The preview didn't go live within 5 minutes." >&2; exit 1
+
+  asbuilt:
+    needs: preview
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mmeek87/AsBuilt@main
+        with:
+          url: ${{ needs.preview.outputs.url }}
