@@ -1,0 +1,11 @@
+{
+  "app": "Fern & Field",
+  "features": [
+    { "id": "cart", "name": "Shoppers see what's in their cart", "who": "Shopper", "where": "/", "check": "checkout", "confirmed": true },
+    { "id": "checkout-total", "name": "Checkout shows the order total before payment", "who": "Shopper", "where": "/", "check": "checkout", "confirmed": true },
+    { "id": "free-delivery", "name": "Shoppers are told when delivery is free", "who": "Shopper", "where": "/", "check": "checkout", "confirmed": true },
+    { "id": "payment", "name": "Shoppers can pay securely", "who": "Shopper", "why": "Payments can't be checked in a browser", "confirmed": true },
+    { "id": "order-email", "name": "Shoppers get an order confirmation email", "who": "Shopper", "why": "Emails can't be checked in a browser", "confirmed": true },
+    { "id": "remove-item", "name": "Shoppers can remove an item from the cart", "who": "Shopper", "where": "/", "confirmed": false }
+  ]
+}
